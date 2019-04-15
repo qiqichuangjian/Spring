@@ -3,15 +3,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd">
-
-    <bean id="user" class="com.spring.User">
+<!--value 设置基本类型的-->
+    <bean id="user1" class="com.spring.User">
+        <!--给属性赋值-->
         <property name="id" value="1001" ></property>
         <property name="name" value="张三" ></property>
         <property name="age" value="20" ></property>
     </bean>
-
+<!--功能等同JavaTest测试类-->
     <bean id="javaWork" class="com.java.JavaWork">
-        <!-- value 设置基本类型的   ref 是设置对象的，就是new 出来的对象    -->
+        <!--ref 是设置对象的，就是new出来的对象    -->
         <property name="tester" ref="lisi" ></property>
     </bean>
 

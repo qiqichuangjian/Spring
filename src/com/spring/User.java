@@ -2,12 +2,11 @@ package com.spring;
 
 public class User {
     // IOC 控制反转  将控制权交个Spring
-
     private Integer id;
     private String name;
     private Integer age;
+    //私有化不能直接访问，所以getter和setter
     // int 和Integer区别：int 基本数据类型，默认值是0； Integer是引用数据类型，默认是null
-
 
     public Integer getId() {
         return id;
