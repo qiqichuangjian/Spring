@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- setter注入  -->
+<bean id="user1" class="com.entity.User">
+    <property name="id" value="1"></property>
+    <property name="username" value="u1"></property>
+    <property name="password" value="p1"></property>
+</bean>
+    <!-- 构造方法注入 -->
+    <!--  类型注入 -->
+<bean id="user2" class="com.entity.User">
+    <constructor-arg type="java.lang.Integer" value="2"></constructor-arg>
+    <constructor-arg type="java.lang.String" value="u2"></constructor-arg>
+    <constructor-arg type="java.lang.String" value="p2"></constructor-arg>
+</bean>
+    <!--  索引注入 -->
+    <bean id="user3" class="com.entity.User">
+        <constructor-arg index="0" value="3"></constructor-arg>
+        <constructor-arg index="1" value="u3"></constructor-arg>
+        <constructor-arg index="2" value="p3"></constructor-arg>
+    </bean>
+    <!-- 联合注入    类型+索引-->
+    <bean id="user4" class="com.entity.User">
+        <constructor-arg index="0" type="java.lang.Integer" value="4"></constructor-arg>
+        <constructor-arg index="1" type="java.lang.String" value="u4"></constructor-arg>
+        <constructor-arg index="2" type="java.lang.String" value="p4"></constructor-arg>
+    </bean>
+    <!-- 非静态工厂 -->
+<bean id="userFactory" class="com.entity.UserFactory"></bean>
+<bean id="user5" factory-bean="userFactory" factory-method="createUser"></bean>
+    <!-- 静态工厂 可以直接从类里调用静态方法-->
+<bean id="user6" class="com.entity.UserFactory" factory-method="createStaticUser"></bean>
+</beans>
