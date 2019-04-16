@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--在xml的类里加入@Repository@service使bean在xml里省略了-->
+    <context:component-scan base-package="com.xml"></context:component-scan>
+
+    <bean id="aop" class="com.xml.AOP" ></bean>
+    <aop:config >
+        <!--重复代码叫切入点，提取出来-->
+        <aop:pointcut id="pt" expression="execution(* com.xml.service.UserService.add(..))"></aop:pointcut>
+        <aop:aspect ref="aop">
+            <aop:before method="before" pointcut-ref="pt"></aop:before>
+            <aop:after method="after"  pointcut-ref="pt"></aop:after>
+            <aop:after-returning method="runtime"  pointcut-ref="pt"></aop:after-returning>
+            <aop:after-throwing method="throwing"  pointcut-ref="pt"></aop:after-throwing>
+            <!--<aop:around method="around"  pointcut-ref="pt"></aop:around>-->
+            <aop:around method="around" pointcut="execution(* com.xml.service.UserService.add(..))"></aop:around>
+        </aop:aspect>
+    </aop:config>
+</beans>
