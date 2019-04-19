@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.java"></context:component-scan>
+
+    <!-- 配置视图解析器：如何把handler方法返回值解析为实际的物理视图 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 页面的前缀  -->
+        <property name="prefix" value="/WEB-INF/views/"></property>
+        <!-- 页面的后缀 -->
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!-- 国际化解析器  i18n与resources文件中的文件属性相应-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="i18n"></property>
+        <!--<property name="basename" value="text"></property>-->
+    </bean>
+
+    <!--若希望直接相应通过Spring MVC渲染的页面，可以使用mvc:view-controller标签来实现,如果不需要进行业务处理时使用-->
+    <!--success.jsp     http://localhost:8080/springmvc/testjstlView-->
+    <mvc:view-controller path="springmvc/testjstlView" view-name="success"/>
+
+    <!--如果不经过业务处理，直接进入页面就可以这么去做。但是这样一来原来的访问请求所有的都不能进行使用了，报404错误。-->
+    <!--success.jsp  http://localhost:8080/success-->
+    <mvc:view-controller path="/success" view-name="success"/>
+    <!--如果配置了上述直接进入页面，但是还想让@RequestMapping注解起作用就需要配置以下代码-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!-- 配置自定义视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="100"></property>
+    </bean>
+
+    <mvc:default-servlet-handler/>
+
+    <!--配置文件上传multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 默认字符集 -->
+        <property name="defaultEncoding" value="utf-8"></property>
+        <!-- 上传文件的最大大小 -->
+        <property name="maxUploadSize" value="1024000"></property>
+        <!--1024000  1GB左右-->
+    </bean>
+    <!-- mvc 访问静态资源  -->
+    <!--在网址里输http://localhost:8080/resource/图片名.jpg可以看到上传的图片-->
+    <mvc:resources mapping="/resource/**" location="/files/"></mvc:resources>
+
+</beans>
